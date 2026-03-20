@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Shippori+Mincho:wght@400;500&family=Josefin+Sans:wght@200;300;400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+
+.phone-wrap{
+  display:inline-block;
+  background:#2A2020;
+  border-radius:44px;
+  padding:12px;
+  box-shadow:0 0 0 1px #3a2828;
+}
+.phone-screen{
+  width:390px;
+  height:844px;
+  border-radius:34px;
+  overflow:hidden;
+  position:relative;
+  background:#FFF5F8;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ステータスバー */
+.status-bar{
+  height:44px;
+  padding:14px 28px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+}
+.status-time{font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:400;color:#2A1018;letter-spacing:0.04em;}
+.status-icons{display:flex;gap:6px;align-items:center;}
+.status-icons svg{display:block;}
+
+/* ナビゲーションバー */
+.navbar{
+  height:52px;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:0.5px solid rgba(212,83,126,0.15);
+  flex-shrink:0;
+  opacity:0;
+  animation:fadeIn 0.6s ease forwards 0.3s;
+}
+.navbar-logo-row{display:flex;align-items:center;gap:10px;}
+.navbar-logo-dummy{width:28px;height:28px;border:1px dashed rgba(212,83,126,0.6);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.navbar-org{font-family:'Shippori Mincho',serif;font-size:13px;font-weight:500;color:#2A1018;letter-spacing:0.08em;}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{display:block;width:20px;height:1px;background:#C94F80;}
+
+/* ヒーロービジュアルエリア（上半分） */
+.hero-visual{
+  height:360px;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 100% 120% at 60% 60%,#FDDDE8 0%,#FCC8D8 45%,#F09AB8 100%);
+}
+.arc-top{position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;border:60px solid rgba(255,255,255,0.22);}
+.arc-bottom{position:absolute;bottom:-80px;left:-40px;width:220px;height:220px;border-radius:50%;border:0.5px solid rgba(212,83,126,0.2);opacity:0;animation:fadeIn 1.5s ease forwards 0.6s;}
+.floral-center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  animation:fadeIn 1.5s ease forwards 0.8s;
+}
+.hero-tagline{
+  position:absolute;bottom:24px;left:0;right:0;text-align:center;
+  opacity:0;animation:fadeUp 0.8s ease forwards 1.4s;
+}
+.hero-tagline-text{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:12px;
+  color:rgba(80,20,40,0.6);letter-spacing:0.12em;
+}
+
+/* テキストエリア（下半分） */
+.hero-text{
+  flex:1;
+  padding:32px 28px 24px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+.pink-left-bar{
+  position:absolute;left:0;top:32px;
+  width:3px;height:0;
+  background:linear-gradient(to bottom,#F2A7C3,#D4537E,#A8305A);
+  animation:growBar 1s ease forwards 1s;
+}
+@keyframes growBar{to{height:120px;}}
+
+.org-name-block{margin-left:16px;opacity:0;animation:fadeUp 0.8s ease forwards 1s;}
+.org-jp{font-family:'Shippori Mincho',serif;font-size:28px;font-weight:500;color:#2A1018;letter-spacing:0.08em;line-height:1.4;}
+.org-en{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:300;letter-spacing:0.12em;color:#A8305A;margin-top:4px;line-height:1.6;}
+
+.divider-row{display:flex;align-items:center;gap:8px;margin:20px 16px 0;}
+.div-line{height:1px;background:#E8739E;animation:growW 0.8s ease forwards 1.4s;width:0;}
+@keyframes growW{to{width:32px;}}
+.div-bloom{opacity:0;animation:fadeIn 0.6s ease forwards 1.8s;}
+
+.desc-block{margin:16px 16px 0;opacity:0;animation:fadeUp 0.8s ease forwards 1.6s;}
+.desc-jp{font-family:'Shippori Mincho',serif;font-size:13px;color:#4A2030;line-height:2;letter-spacing:0.05em;}
+.desc-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:#B07090;line-height:1.8;margin-top:8px;letter-spacing:0.04em;}
+
+.location-row{margin:18px 16px 0;display:flex;align-items:center;gap:8px;opacity:0;animation:fadeUp 0.6s ease forwards 2s;}
+.loc-line{width:14px;height:1px;background:#E8739E;}
+.loc-text{font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.22em;color:#B07090;}
+
+/* ホームインジケーター */
+.home-indicator{
+  height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.home-bar{width:134px;height:5px;background:rgba(42,16,24,0.2);border-radius:3px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{to{opacity:1;}}
+</style>
+</head><body>
+<div style="padding:24px;background:#1a1010;display:inline-block;">
+<div style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.2em;color:#8a5068;margin-bottom:12px;text-transform:uppercase;">Prototype A — Mobile (390×844)</div>
+<div class="phone-wrap">
+<div class="phone-screen">
+
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1" fill="#2A1018"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="#2A1018"/><rect x="9" y="0" width="3" height="12" rx="1" fill="#2A1018"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="rgba(42,16,24,0.25)"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.5 2 3.3 3 1.7 4.7L0 3C2.1 1.1 4.9 0 8 0s5.9 1.1 8 3l-1.7 1.7C12.7 3 10.5 2 8 2z" fill="#2A1018"/><path d="M8 6c-1.4 0-2.6.5-3.5 1.4L3 5.9C4.3 4.7 6.1 4 8 4s3.7.7 5 1.9L11.5 7.4C10.6 6.5 9.4 6 8 6z" fill="#2A1018"/><circle cx="8" cy="10" r="2" fill="#2A1018"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2.5" fill="none" stroke="#2A1018" stroke-width="1"/><rect x="22.5" y="3.5" width="2" height="5" rx="1" fill="#2A1018"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="#2A1018"/></svg>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="navbar-logo-row">
+      <div class="navbar-logo-dummy">
+        <svg width="14" height="14" viewBox="0 0 14 14">
+          <g transform="translate(7,7)">
+            <ellipse cx="0" cy="-3.5" rx="1.6" ry="2.5" fill="rgba(212,83,126,0.5)" transform="rotate(0)"/>
+            <ellipse cx="0" cy="-3.5" rx="1.6" ry="2.5" fill="rgba(212,83,126,0.5)" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-3.5" rx="1.6" ry="2.5" fill="rgba(212,83,126,0.5)" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-3.5" rx="1.6" ry="2.5" fill="rgba(212,83,126,0.5)" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-3.5" rx="1.6" ry="2.5" fill="rgba(212,83,126,0.5)" transform="rotate(288)"/>
+            <circle cx="0" cy="0" r="1.5" fill="rgba(168,48,90,0.7)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="navbar-org">日本英国婦人会</div>
+    </div>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-bg"></div>
+    <div class="arc-top"></div>
+    <div class="arc-bottom"></div>
+    <svg class="floral-center" width="280" height="280" viewBox="0 0 280 280">
+      <circle cx="140" cy="140" r="112" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+      <circle cx="140" cy="140" r="88" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.5"/>
+      <circle cx="140" cy="140" r="66" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/>
+      <g transform="translate(140,140)">
+        <ellipse cx="0" cy="-44" rx="18" ry="30" fill="rgba(255,255,255,0.65)" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-44" rx="18" ry="30" fill="rgba(255,220,230,0.7)" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-44" rx="18" ry="30" fill="rgba(255,255,255,0.65)" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-44" rx="18" ry="30" fill="rgba(255,220,230,0.7)" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-44" rx="18" ry="30" fill="rgba(255,255,255,0.65)" transform="rotate(288)"/>
+        <ellipse cx="0" cy="-26" rx="10" ry="16" fill="rgba(232,115,158,0.4)" transform="rotate(36)"/>
+        <ellipse cx="0" cy="-26" rx="10" ry="16" fill="rgba(232,115,158,0.4)" transform="rotate(108)"/>
+        <ellipse cx="0" cy="-26" rx="10" ry="16" fill="rgba(232,115,158,0.4)" transform="rotate(180)"/>
+        <ellipse cx="0" cy="-26" rx="10" ry="16" fill="rgba(232,115,158,0.4)" transform="rotate(252)"/>
+        <ellipse cx="0" cy="-26" rx="10" ry="16" fill="rgba(232,115,158,0.4)" transform="rotate(324)"/>
+        <circle cx="0" cy="0" r="16" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="0" cy="0" r="9" fill="rgba(201,79,128,0.6)"/>
+        <circle cx="0" cy="0" r="4" fill="rgba(160,40,80,0.7)"/>
+      </g>
+      <g transform="translate(52,65)">
+        <ellipse cx="0" cy="-12" rx="5" ry="8" fill="rgba(255,255,255,0.5)" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-12" rx="5" ry="8" fill="rgba(255,220,235,0.55)" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-12" rx="5" ry="8" fill="rgba(255,255,255,0.5)" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-12" rx="5" ry="8" fill="rgba(255,220,235,0.55)" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-12" rx="5" ry="8" fill="rgba(255,255,255,0.5)" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="4" fill="rgba(255,255,255,0.55)"/>
+        <circle cx="0" cy="0" r="2" fill="rgba(201,79,128,0.5)"/>
+      </g>
+      <g transform="translate(222,75)">
+        <ellipse cx="0" cy="-10" rx="4" ry="7" fill="rgba(255,255,255,0.5)" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="7" fill="rgba(255,210,225,0.5)" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="7" fill="rgba(255,255,255,0.5)" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="7" fill="rgba(255,210,225,0.5)" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="7" fill="rgba(255,255,255,0.5)" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="3" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="0" cy="0" r="1.5" fill="rgba(201,79,128,0.45)"/>
+      </g>
+      <g transform="translate(65,212)">
+        <ellipse cx="0" cy="-10" rx="4" ry="6.5" fill="rgba(255,255,255,0.45)" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="6.5" fill="rgba(255,210,225,0.5)" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="6.5" fill="rgba(255,255,255,0.45)" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="6.5" fill="rgba(255,210,225,0.5)" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-10" rx="4" ry="6.5" fill="rgba(255,255,255,0.45)" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="3" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="0" cy="0" r="1.5" fill="rgba(201,79,128,0.4)"/>
+      </g>
+      <g transform="translate(216,205)">
+        <ellipse cx="0" cy="-13" rx="5" ry="8.5" fill="rgba(255,255,255,0.5)" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-13" rx="5" ry="8.5" fill="rgba(255,220,235,0.55)" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-13" rx="5" ry="8.5" fill="rgba(255,255,255,0.5)" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-13" rx="5" ry="8.5" fill="rgba(255,220,235,0.55)" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-13" rx="5" ry="8.5" fill="rgba(255,255,255,0.5)" transform="rotate(288)"/>
+        <circle cx="0" cy="0" r="4" fill="rgba(255,255,255,0.55)"/>
+        <circle cx="0" cy="0" r="2" fill="rgba(201,79,128,0.45)"/>
+      </g>
+    </svg>
+    <div class="hero-tagline">
+      <div class="hero-tagline-text">Japanese Women's Association in Great Britain</div>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <div class="pink-left-bar"></div>
+    <div class="org-name-block">
+      <div class="org-jp">日本英国婦人会</div>
+      <div class="org-en">The Japanese Women's Association<br>in Great Britain</div>
+    </div>
+    <div class="divider-row">
+      <div class="div-line"></div>
+      <svg class="div-bloom" width="12" height="12" viewBox="0 0 12 12">
+        <g transform="translate(6,6)">
+          <ellipse cx="0" cy="-3.2" rx="1.8" ry="2.6" fill="#E8739E" opacity="0.8" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-3.2" rx="1.8" ry="2.6" fill="#E8739E" opacity="0.8" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-3.2" rx="1.8" ry="2.6" fill="#E8739E" opacity="0.8" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-3.2" rx="1.8" ry="2.6" fill="#E8739E" opacity="0.8" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-3.2" rx="1.8" ry="2.6" fill="#E8739E" opacity="0.8" transform="rotate(288)"/>
+          <circle cx="0" cy="0" r="1.6" fill="#C94F80"/>
+        </g>
+      </svg>
+      <div class="div-line" style="animation-delay:1.6s;"></div>
+    </div>
+    <div class="desc-block">
+      <div class="desc-jp">英国に生きる日本人女性たちの、<br>絆と文化を育む場所。</div>
+      <div class="desc-en">A community bridging cultures,<br>nurturing friendship across generations.</div>
+    </div>
+    <div class="location-row">
+      <div class="loc-line"></div>
+      <div class="loc-text">London, United Kingdom</div>
+    </div>
+  </div>
+
+  <div class="home-indicator">
+    <div class="home-bar"></div>
+  </div>
+</div>
+</div>
+</div>
+</body></html>
